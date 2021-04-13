@@ -1,17 +1,17 @@
 const express = require('express');
-const notes = require('./db/db.json')
-const home = require('./public/index.html')
+const path = require('path');
+
+const notes = require('./db/db.json');
+
 const app = express();
 const PORT = 8080;
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-app.get('/', (req, res) => res.send(home));
+app.get('/', (req, res) => res.sendFile(path.join(__dirname, '/assets/index.html')));
 
-app.get('/api/notes', (req, res) => {
-    return res.json(notes);
-});
+app.get('/api/notes', (req, res) => res.json(notes));
 
 app.post('/api/notes', (req, res) => {
     const newNote = req.body;
